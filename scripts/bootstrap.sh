@@ -35,6 +35,7 @@ install_packages() {
     xss-lock \
     dex \
     feh \
+    xfce4-terminal \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     fonts-powerline
