@@ -36,6 +36,7 @@ install_packages() {
     dex \
     feh \
     xfce4-terminal \
+    alacritty \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     fonts-powerline
@@ -75,6 +76,9 @@ link_configs() {
   ln -sfn "$REPO_ROOT/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
   ln -sfn "$REPO_ROOT/vim/.vimrc"    "$HOME/.vimrc"
   ln -sfn "$REPO_ROOT/zsh/aliases.zsh" "$HOME/.zsh_aliases"
+
+  mkdir -p "$HOME/.config/alacritty"
+  ln -sfn "$REPO_ROOT/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 
   info "Linking i3 config ($MACHINE)"
   mkdir -p "$HOME/.config/i3"
