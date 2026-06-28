@@ -1,3 +1,13 @@
+[[keyboard.bindings]]
+key = "C"
+mods = "Control"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control"
+action = "Paste"
+
 [font]
 normal = { family = "Monospace", style = "Regular" }
 size = 12.0
