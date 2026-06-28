@@ -47,6 +47,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Autosuggestions can use command history and completion results.
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#586e75"
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases

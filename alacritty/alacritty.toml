@@ -13,7 +13,7 @@ normal = { family = "Monospace", style = "Regular" }
 size = 12.0
 
 [colors.primary]
-background = "#002b36"
+background = "#001a22"
 foreground = "#839496"
 
 [colors.normal]
