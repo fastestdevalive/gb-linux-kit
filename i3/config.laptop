@@ -175,7 +175,7 @@ bindsym $mod+Shift+c move container to workspace $ws_server
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 # Screenshots
 bindsym Print exec maim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
-bindsym $mod+Print exec flameshot gui
+bindsym Shift+Print exec flameshot gui
 bindsym Ctrl+Print exec maim | xclip -selection clipboard -t image/png
 
 bindsym $mod+Shift+r restart
