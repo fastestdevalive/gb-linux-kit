@@ -3,14 +3,14 @@
 
 set $mod Mod4
 
-font pango:monospace 14
+font pango:monospace 12
 
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec_always --no-startup-id xrandr --dpi 96
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id flameshot
 
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -25,7 +25,7 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec alacritty
 bindsym $mod+grave exec alacritty
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id dmenu_run -fn 'monospace:size=14'
+bindsym $mod+d exec --no-startup-id dmenu_run -fn 'monospace:size=12'
 
 bindsym $mod+h focus left
 bindsym $mod+j focus down

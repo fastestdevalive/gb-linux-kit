@@ -1,3 +1,10 @@
+# Ensure ~/.local/bin (claude, etc.) is on PATH. zsh does not read ~/.bashrc or
+# ~/.profile, so the PATH set there never applies here.
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
