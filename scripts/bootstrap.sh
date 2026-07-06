@@ -40,6 +40,7 @@ install_packages() {
     maim \
     xclip \
     picom \
+    flameshot \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     fonts-powerline
