@@ -39,6 +39,7 @@ install_packages() {
     alacritty \
     maim \
     xclip \
+    picom \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     fonts-powerline

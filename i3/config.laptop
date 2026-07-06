@@ -24,6 +24,7 @@ font pango:monospace 24
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec_always --no-startup-id xrandr --dpi 96
 exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id picom -b
 
 # Trackpad configuration
 exec xinput set-prop "SYNA8008:00 06CB:CE58 Touchpad" "libinput Tapping Enabled" 1
