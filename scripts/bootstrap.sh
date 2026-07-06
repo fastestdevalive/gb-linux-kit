@@ -37,6 +37,8 @@ install_packages() {
     feh \
     xfce4-terminal \
     alacritty \
+    maim \
+    xclip \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     fonts-powerline
