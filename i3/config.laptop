@@ -24,7 +24,6 @@ font pango:monospace 24
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec_always --no-startup-id xrandr --dpi 96
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id picom --backend xrender -b
 exec --no-startup-id flameshot
 
 # Trackpad configuration

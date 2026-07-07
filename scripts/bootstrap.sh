@@ -35,11 +35,9 @@ install_packages() {
     xss-lock \
     dex \
     feh \
-    xfce4-terminal \
     alacritty \
     maim \
     xclip \
-    picom \
     flameshot \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
