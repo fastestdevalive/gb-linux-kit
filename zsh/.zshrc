@@ -5,6 +5,16 @@ case ":$PATH:" in
   *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
 
+# Source adb-device-select plugin before the Powerlevel10k instant prompt block
+# below. It defines instant_prompt_adb_device, and p10k only picks up
+# instant-prompt-capable segments that exist by the time it captures the
+# instant prompt cache; sourcing it later left the adb_device segment out of
+# the instant (pre-init) prompt and made it pop in only after full init.
+ZSH_KIT_DIR="${${(%):-%x}:a:h}"
+if [[ -f "$ZSH_KIT_DIR/plugins/adb-device-select/adb-device-select.plugin.zsh" ]]; then
+  source "$ZSH_KIT_DIR/plugins/adb-device-select/adb-device-select.plugin.zsh"
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -21,6 +31,28 @@ setopt histignorealldups sharehistory
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
+
+# Prefix-matching history search on Up/Down: type the start of a command,
+# then Up/Down cycles only through history entries starting with it. This is
+# NOT zsh's default Up/Down behavior (which is unfiltered linear recall via
+# up-line-or-history/down-line-or-history) -- it only appeared to "just work"
+# on some machines because of incidental leftover config (e.g. an old
+# oh-my-zsh install or a stale ~/.zshrc from before this repo existed), which
+# is why a fresh bootstrap on another Debian box didn't have it. Bind it
+# explicitly so behavior is consistent everywhere, and use terminfo so it
+# still works if a terminal emits different escape sequences for the arrow
+# keys than the ANSI defaults.
+zmodload -i zsh/terminfo 2>/dev/null
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+if [[ -n ${terminfo[kcuu1]:-} && -n ${terminfo[kcud1]:-} ]]; then
+  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+else
+  bindkey '^[[A' up-line-or-beginning-search
+  bindkey '^[[B' down-line-or-beginning-search
+fi
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000

@@ -74,7 +74,27 @@ install_vim_theme() {
 link_configs() {
   info "Linking shell/editor config files"
 
-  ln -sfn "$REPO_ROOT/zsh/.zshrc"    "$HOME/.zshrc"
+  # Instead of symlinking .zshrc, source it in the user's .zshrc
+  local zshrc="$HOME/.zshrc"
+  local source_line="source \"$REPO_ROOT/zsh/.zshrc\""
+
+  if [[ -L "$zshrc" ]]; then
+    info "Removing existing symbolic link at $zshrc"
+    rm "$zshrc"
+  fi
+
+  if [[ -f "$zshrc" ]]; then
+    if ! grep -Fxq "$source_line" "$zshrc"; then
+      info "Appending source line to $zshrc"
+      printf '\n%s\n' "$source_line" >> "$zshrc"
+    else
+      info "$zshrc already sources $REPO_ROOT/zsh/.zshrc"
+    fi
+  else
+    info "Creating new $zshrc sourcing $REPO_ROOT/zsh/.zshrc"
+    printf '%s\n' "$source_line" > "$zshrc"
+  fi
+
   ln -sfn "$REPO_ROOT/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
   ln -sfn "$REPO_ROOT/vim/.vimrc"    "$HOME/.vimrc"
   ln -sfn "$REPO_ROOT/zsh/aliases.zsh" "$HOME/.zsh_aliases"
