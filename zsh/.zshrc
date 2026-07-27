@@ -39,19 +39,28 @@ bindkey -e
 # on some machines because of incidental leftover config (e.g. an old
 # oh-my-zsh install or a stale ~/.zshrc from before this repo existed), which
 # is why a fresh bootstrap on another Debian box didn't have it. Bind it
-# explicitly so behavior is consistent everywhere, and use terminfo so it
-# still works if a terminal emits different escape sequences for the arrow
-# keys than the ANSI defaults.
+# explicitly so behavior is consistent everywhere.
+#
+# zsh's own default emacs keymap binds BOTH the normal-cursor-mode sequences
+# (^[[A / ^[[B) AND the application/SS3-mode sequences (^[OA / ^[OB) to
+# up/down-line-or-history, since different terminals (and even the same
+# terminal in different modes) send either one. Rebinding only whichever
+# single sequence terminfo's kcuu1/kcud1 happens to resolve to leaves the
+# other variant still pointing at plain history recall, so on a terminal that
+# sends the other variant, Up/Down silently falls back to non-prefix search.
+# Bind both variants (plus terminfo's, in case a terminal uses something
+# else entirely) so it's correct regardless of which mode is active.
 zmodload -i zsh/terminfo 2>/dev/null
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[OA' up-line-or-beginning-search
+bindkey '^[OB' down-line-or-beginning-search
 if [[ -n ${terminfo[kcuu1]:-} && -n ${terminfo[kcud1]:-} ]]; then
   bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
   bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
-else
-  bindkey '^[[A' up-line-or-beginning-search
-  bindkey '^[[B' down-line-or-beginning-search
 fi
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
