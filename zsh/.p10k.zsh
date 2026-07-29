@@ -85,6 +85,7 @@
     google_app_cred         # google application credentials (https://cloud.google.com/docs/authentication/production)
     toolbox                 # toolbox name (https://github.com/containers/toolbox)
     context                 # user@hostname
+    adb_device              # selected ADB device (gb-linux-kit adb-device-select plugin)
     nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
     ranger                  # ranger shell (https://github.com/ranger/ranger)
     yazi                    # yazi shell (https://github.com/sxyazi/yazi)
