@@ -13,9 +13,19 @@ key = "V"
 mods = "Control"
 action = "Paste"
 
+[window]
+opacity = 0.76
+blur = true
+padding = { x = 12, y = 28 }
+decorations = "transparent"
+
+[terminal.shell]
+program = "/bin/zsh"
+args = ["-l"]
+
 [font]
-normal = { family = "Monospace", style = "Regular" }
-size = 12.0
+normal = { family = "MesloLGS NF", style = "Regular" }
+size = 13.0
 
 [colors.primary]
 background = "#001a22"

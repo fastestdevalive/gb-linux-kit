@@ -24,5 +24,11 @@ set hlsearch
 
 " Behavior
 set mouse=a
-set clipboard=unnamedplus
+if has('clipboard')
+  if has('unnamedplus')
+    set clipboard=unnamed,unnamedplus
+  else
+    set clipboard=unnamed
+  endif
+endif
 set updatetime=300

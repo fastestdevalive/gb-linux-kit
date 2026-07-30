@@ -1,9 +1,14 @@
-# Ensure ~/.local/bin (claude, etc.) is on PATH. zsh does not read ~/.bashrc or
-# ~/.profile, so the PATH set there never applies here.
-case ":$PATH:" in
-  *":$HOME/.local/bin:"*) ;;
-  *) export PATH="$HOME/.local/bin:$PATH" ;;
-esac
+# Ensure ~/.local/bin and common Homebrew paths are on PATH if they exist.
+# zsh does not read ~/.bashrc or ~/.profile by default, so we ensure standard paths here.
+for _p in "$HOME/.local/bin" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" "/usr/local/sbin"; do
+  if [[ -d "$_p" ]]; then
+    case ":$PATH:" in
+      *":$_p:"*) ;;
+      *) export PATH="$_p:$PATH" ;;
+    esac
+  fi
+done
+unset _p
 
 # Source adb-device-select plugin before the Powerlevel10k instant prompt block
 # below. It defines instant_prompt_adb_device, and p10k only picks up
@@ -22,10 +27,32 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Oh My Zsh integration (if installed)
+export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
+if [[ -d "$ZSH" && -f "$ZSH/oh-my-zsh.sh" ]]; then
+  ZSH_THEME="" # Prompt theme handled by Powerlevel10k
+  DISABLE_AUTO_UPDATE="true"
+  zstyle ':omz:update' mode disabled
+  plugins=(git)
+  source "$ZSH/oh-my-zsh.sh"
+fi
+
 # Set up the prompt
 autoload -Uz promptinit
 promptinit
-source ~/.powerlevel10k/powerlevel10k.zsh-theme
+
+# Find and load Powerlevel10k theme across Linux and macOS locations
+for _p10k_theme in \
+  "$HOME/.powerlevel10k/powerlevel10k.zsh-theme" \
+  /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme \
+  /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme \
+  /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme; do
+  if [[ -r "$_p10k_theme" ]]; then
+    source "$_p10k_theme"
+    break
+  fi
+done
+unset _p10k_theme
 
 setopt histignorealldups sharehistory
 
@@ -77,8 +104,18 @@ zstyle ':completion:*' completer _expand _complete _history _correct _approximat
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# Colors for completions and directory listings (Linux dircolors / macOS BSD ls)
+if command -v dircolors >/dev/null 2>&1; then
+  eval "$(dircolors -b)"
+elif command -v gdircolors >/dev/null 2>&1; then
+  eval "$(gdircolors -b)"
+fi
+
+export CLICOLOR=1
+if [[ -n "${LS_COLORS:-}" ]]; then
+  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+fi
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
@@ -96,9 +133,32 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # Autosuggestions can use command history and completion results.
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#586e75"
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+for _zsh_autosuggest in \
+  /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  "$HOME/.zsh-autosuggestions/zsh-autosuggestions.zsh"; do
+  if [[ -r "$_zsh_autosuggest" ]]; then
+    source "$_zsh_autosuggest"
+    break
+  fi
+done
+unset _zsh_autosuggest
 
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
 
 # Keep syntax highlighting last in zsh startup.
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+for _zsh_syntax_hl in \
+  /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+  /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+  /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+  "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+  "$HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; do
+  if [[ -r "$_zsh_syntax_hl" ]]; then
+    source "$_zsh_syntax_hl"
+    break
+  fi
+done
+unset _zsh_syntax_hl

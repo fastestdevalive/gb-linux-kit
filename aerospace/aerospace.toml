@@ -1,0 +1,131 @@
+# AeroSpace Configuration (i3-like tiling window manager for macOS)
+# https://nikitabobko.github.io/AeroSpace/guide
+
+config-version = 2
+
+# Start AeroSpace at login
+start-at-login = true
+
+# Automatically reload config when saved
+auto-reload-config = true
+
+# Container layout & normalizations
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# Mouse follows focus across monitors
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Persistent workspaces (1-9)
+persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+# Window gaps (in pixels)
+gaps.inner.horizontal = 6
+gaps.inner.vertical   = 6
+gaps.outer.left       = 6
+gaps.outer.bottom     = 6
+gaps.outer.top        = 6
+gaps.outer.right      = 6
+
+[mode.main.binding]
+    # Launch Terminal (Alacritty or macOS Terminal) with Alt + Enter (like i3)
+    alt-enter = 'exec-and-forget open -na /Applications/Alacritty.app'
+
+    # Focus navigation (Vim keys)
+    alt-h = 'focus left'
+    alt-j = 'focus down'
+    alt-k = 'focus up'
+    alt-l = 'focus right'
+
+    # Focus navigation (Arrow keys fallback)
+    alt-left  = 'focus left'
+    alt-down  = 'focus down'
+    alt-up    = 'focus up'
+    alt-right = 'focus right'
+
+    # Window movement (Vim keys)
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
+
+    # Window movement (Arrow keys fallback)
+    alt-shift-left  = 'move left'
+    alt-shift-down  = 'move down'
+    alt-shift-up    = 'move up'
+    alt-shift-right = 'move right'
+
+    # Layout toggles
+    alt-slash       = 'layout tiles horizontal vertical'
+    alt-comma       = 'layout accordion horizontal vertical'
+    alt-f           = 'fullscreen'
+    alt-shift-space = 'layout floating tiling'
+
+    # Window resizing
+    alt-minus = 'resize smart -50'
+    alt-equal = 'resize smart +50'
+
+    # Workspace switching (1-9)
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
+    alt-9 = 'workspace 9'
+
+    # Move window to workspace (1-9)
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+    alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
+    alt-shift-9 = 'move-node-to-workspace 9'
+
+    # Special workspaces (T-terminal, Q, C-cloud)
+    alt-t = 'workspace T-terminal'
+    alt-shift-t = 'move-node-to-workspace T-terminal'
+    alt-q = 'workspace Q'
+    alt-shift-q = 'move-node-to-workspace Q'
+    alt-c = 'workspace C-cloud'
+    alt-shift-c = 'move-node-to-workspace C-cloud'
+
+    # Workspace back and forth
+    alt-tab = 'workspace-back-and-forth'
+    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    # Reload config (Mod+Shift+R)
+    alt-shift-r = 'reload-config'
+
+    # Service mode
+    alt-shift-semicolon = 'mode service'
+
+# Service binding mode
+[mode.service.binding]
+    esc = ['reload-config', 'mode main']
+    r = ['flatten-workspace-tree', 'mode main']
+    f = ['layout floating tiling', 'mode main']
+    backspace = ['close-all-windows-but-current', 'mode main']
+
+    alt-shift-h = ['join-with left', 'mode main']
+    alt-shift-j = ['join-with down', 'mode main']
+    alt-shift-k = ['join-with up', 'mode main']
+    alt-shift-l = ['join-with right', 'mode main']
+
+# Automatically send Alacritty windows to T-terminal workspace
+[[on-window-detected]]
+if.app-id = 'org.alacritty'
+run = 'move-node-to-workspace T-terminal'
+
+[[on-window-detected]]
+if.app-id = 'com.github.alacritty'
+run = 'move-node-to-workspace T-terminal'
