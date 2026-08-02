@@ -32,8 +32,8 @@ gaps.outer.top        = 6
 gaps.outer.right      = 6
 
 [mode.main.binding]
-    # Launch Terminal (Alacritty or macOS Terminal) with Alt + Enter (like i3)
-    alt-enter = 'exec-and-forget open -na /Applications/Alacritty.app'
+    # Launch Terminal (Alacritty or macOS Terminal) with Alt + ` (like i3)
+    alt-backtick = 'exec-and-forget open -na /Applications/Alacritty.app'
 
     # Focus navigation (Vim keys)
     alt-h = 'focus left'
