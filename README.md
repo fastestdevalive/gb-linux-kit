@@ -25,7 +25,8 @@ aerospace/aerospace.toml   — AeroSpace config for macOS (i3-like bindings, gap
 i3/config.laptop           — i3 config for Linux laptops: Mod1 (Alt), touchpad, brightness keys
 i3/config.workstation      — i3 config for Linux workstations: Mod4 (Super), no touchpad
 vim/.vimrc                 — Vim config (portable clipboard, code-dark theme)
-alacritty/alacritty.toml   — Alacritty terminal configuration
+alacritty/alacritty.linux.toml — Alacritty terminal config for Linux (zero margin/padding)
+alacritty/alacritty.mac.toml   — Alacritty terminal config for macOS (window padding for titlebar)
 ```
 
 ## Usage on a new machine

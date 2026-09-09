@@ -16,7 +16,8 @@ action = "Paste"
 [window]
 opacity = 0.76
 blur = true
-padding = { x = 0, y = 0 }
+padding = { x = 12, y = 28 }
+decorations = "transparent"
 
 [shell]
 program = "/bin/zsh"

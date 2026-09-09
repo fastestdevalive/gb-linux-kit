@@ -338,7 +338,11 @@ link_configs() {
   ln -sfn "$REPO_ROOT/zsh/aliases.zsh" "$HOME/.zsh_aliases"
 
   mkdir -p "$HOME/.config/alacritty"
-  ln -sfn "$REPO_ROOT/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+  if [[ "$OS" == "mac" ]]; then
+    ln -sfn "$REPO_ROOT/alacritty/alacritty.mac.toml" "$HOME/.config/alacritty/alacritty.toml"
+  else
+    ln -sfn "$REPO_ROOT/alacritty/alacritty.linux.toml" "$HOME/.config/alacritty/alacritty.toml"
+  fi
 
   if [[ "$OS" == "mac" ]]; then
     info "Linking AeroSpace config (~/.config/aerospace/aerospace.toml)"
