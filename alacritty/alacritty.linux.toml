@@ -24,7 +24,7 @@ args = ["-l"]
 
 [font]
 normal = { family = "MesloLGS NF", style = "Regular" }
-size = 11.0
+size = 12.0
 
 [colors.primary]
 background = "#001a22"

@@ -5,7 +5,7 @@ set $mod Mod4
 
 font pango:monospace 12
 
-exec --no-startup-id xrdb -merge ~/.Xresources
+exec_always --no-startup-id bash -c 'echo "Xft.dpi: 96" | xrdb -merge'
 exec_always --no-startup-id xrandr --dpi 96
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id flameshot
