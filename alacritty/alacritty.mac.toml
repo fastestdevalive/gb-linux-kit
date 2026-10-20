@@ -19,13 +19,13 @@ blur = true
 padding = { x = 12, y = 28 }
 decorations = "transparent"
 
-[shell]
+[terminal.shell]
 program = "/bin/zsh"
 args = ["-l"]
 
 [font]
 normal = { family = "MesloLGS NF", style = "Regular" }
-size = 11.0
+size = 14.0
 
 [colors.primary]
 background = "#001a22"
